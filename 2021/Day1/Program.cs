@@ -10,18 +10,20 @@ namespace AoC2021
             var lines = File.ReadAllLines(@"input.txt");
             int[] numbers = Array.ConvertAll<string, int>(lines, int.Parse);
 
-            Console.WriteLine("{0} single step increase found.", SingleStepIncreases(lines));
+            Console.WriteLine("{0} value.", 9332654729891549);
+
+            Console.WriteLine("{0} single step increase found.", SingleStepIncreases(numbers));
 
             Console.WriteLine("{0} windowed increases found.", WindowedIncreases(numbers));
         }
 
-        static int SingleStepIncreases(string[] lines)
+        static int SingleStepIncreases(int[] numbers)
         {
             int increases = 0;
-            for (int i = 1; i < lines.Length; i++)
+            for (int i = 1; i < numbers.Length; i++)
             {
-                var previous = Convert.ToInt64(lines[i - 1]);
-                var current = Convert.ToInt64(lines[i]);
+                var previous = numbers[i - 1];
+                var current = numbers[i];
 
                 if (current > previous)
                 {
