@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
+using AdventOfCode;
 
 namespace AoC2021
 {
@@ -7,18 +9,17 @@ namespace AoC2021
     {
         static void Main(string[] args)
         {
-            var lines = File.ReadAllLines(@"input.txt");
-            int[] numbers = Array.ConvertAll<string, int>(lines, int.Parse);
-
-            Console.WriteLine("{0} value.", 9332654729891549);
-
-            Console.WriteLine("{0} single step increase found.", SingleStepIncreases(numbers));
-
-            Console.WriteLine("{0} windowed increases found.", WindowedIncreases(numbers));
+            new Day1Part1Solution().CalculateSolution();
+            new Day1Part2Solution().CalculateSolution();
         }
+    }
 
-        static int SingleStepIncreases(int[] numbers)
+    [DisplayName("Day 1/Part 1 Solution")]
+    class Day1Part1Solution : SolutionBase
+    {
+        public override void CalculateSolution()
         {
+            int[] numbers = Array.ConvertAll(Lines, int.Parse);
             int increases = 0;
             for (int i = 1; i < numbers.Length; i++)
             {
@@ -31,11 +32,16 @@ namespace AoC2021
                 }
             }
 
-            return increases;
+            RenderResult("Increases", increases);
         }
+    }
 
-        static int WindowedIncreases(int[] numbers)
+    [DisplayName("Day 1/Part 2 Solution")]
+    class Day1Part2Solution : SolutionBase
+    {
+        public override void CalculateSolution()
         {
+            int[] numbers = Array.ConvertAll(Lines, int.Parse);
             int increases = 0;
 
             for (int i = 1; i < numbers.Length; i++)
@@ -54,7 +60,7 @@ namespace AoC2021
                 }
             }
 
-            return increases;
+            RenderResult("Windowed increases", increases);
         }
     }
 }

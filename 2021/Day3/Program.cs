@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.ComponentModel;
 using System.Linq;
 using AdventOfCode;
 using Day3.Support;
@@ -77,7 +77,7 @@ namespace Day3
 
             int result = (BinaryString)gamma * (BinaryString)epsilon;
 
-            RenderResult(result);
+            RenderResult("Power consumption", result);
         }
     }
 
@@ -92,7 +92,7 @@ namespace Day3
 
             int result = (BinaryString)oxygenRating * (BinaryString)co2ScrubberRating;
 
-            RenderResult(result);
+            RenderResult("Life support", result);
         }
 
         private string[] GetLinesByFrequency(string[] lines, int position, Func<Dictionary<int, Dictionary<char, int>>, int, char> predicate)

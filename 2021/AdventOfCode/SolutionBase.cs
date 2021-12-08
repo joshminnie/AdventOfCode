@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace AdventOfCode
 {
@@ -36,14 +37,7 @@ namespace AdventOfCode
             {
                 DisplayNameAttribute attribute = (DisplayNameAttribute)Attribute.GetCustomAttribute(this.GetType(), typeof(DisplayNameAttribute), true);
 
-                if (attribute == null)
-                {
-                    return this.GetType().Name;
-                }
-                else
-                {
-                    return attribute.Name;
-                }
+                return attribute == null ? GetType().Name : attribute.DisplayName;
             }
         }
 
@@ -58,8 +52,20 @@ namespace AdventOfCode
         /// <param name="result"></param>
         public virtual void RenderResult(object result)
         {
+            RenderResult(null, result);
+        }
+
+        public virtual void RenderResult(string message, object result)
+        {
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write($"{this.DisplayName} Result: ");
+            if (string.IsNullOrEmpty(message))
+            {
+                Console.Write($"{this.DisplayName}: ");
+            }
+            else
+            {
+                Console.Write($"{this.DisplayName} | {message}: ");
+            }
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(result);

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using AdventOfCode;
 
 namespace Day2
 {
@@ -8,20 +10,21 @@ namespace Day2
     {
         static void Main(string[] args)
         {
-            var lines = File.ReadAllLines(@"input.txt");
-            var directions = lines.Select(p => p.Split(" ")).ToArray();
-
-            Console.WriteLine("{0} is the final position.", CalculatePosition(directions));
-
-            Console.WriteLine("{0} is the angled position.", CalculateAngledPosition(directions));
+            new Day2Part1Solution().CalculateSolution();
+            new Day2Part2Solution().CalculateSolution();
         }
+    }
 
-        static int CalculatePosition(string[][] directions)
+    [DisplayName("Day 2/Part 1 Solution")]
+    class Day2Part1Solution : SolutionBase
+    {
+        public override void CalculateSolution()
         {
+            var directions = Lines.Select(p => p.Split(" ")).ToArray();
             int depth = 0, distance = 0;
             for (int i = 0; i < directions.Length; i++)
             {
-                switch(directions[i][0])
+                switch (directions[i][0])
                 {
                     case "forward":
                         distance += int.Parse(directions[i][1]);
@@ -35,11 +38,16 @@ namespace Day2
                 }
             }
 
-            return depth * distance;
+            RenderResult("Static position", depth * distance);
         }
+    }
 
-        static int CalculateAngledPosition(string[][] directions)
+    [DisplayName("Day 2/Part 2 Solution")]
+    class Day2Part2Solution : SolutionBase
+    {
+        public override void CalculateSolution()
         {
+            var directions = Lines.Select(p => p.Split(" ")).ToArray();
             int depth = 0, angle = 0, distance = 0, movement;
             for (int i = 0; i < directions.Length; i++)
             {
@@ -59,7 +67,7 @@ namespace Day2
                 }
             }
 
-            return depth * distance;
+            RenderResult("Angled position", depth * distance);
         }
     }
 }
