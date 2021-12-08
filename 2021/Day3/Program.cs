@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using AdventOfCode;
+using Day3.Support;
 
 namespace Day3
 {
@@ -9,13 +11,21 @@ namespace Day3
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Frequency digits result = {0}", CalculateFrequencyDigits());
-            Console.WriteLine("Frequency entire number = {0}", CalculateFrequencyEntirety());
+            new Day3Part1Solution().CalculateSolution();
+            new Day3Part2Solution().CalculateSolution();
         }
+    }
 
-        static Dictionary<int, Dictionary<char, int>> CalculateFrequencies(string[] lines)
+    public abstract class Day3SolutionBase : SolutionBase
+    {
+        /// <summary>
+        /// Calculates the frequency of the digits in the given lines.
+        /// </summary>
+        /// <param name="lines"></param>
+        /// <returns></returns>
+        public static Dictionary<int, Dictionary<char, int>> CalculateDigitFrequency(string[] lines)
         {
-            var readouts = lines.Select(l => l.ToCharArray()).ToArray();
+            var readouts = lines.Select(l => (BinaryString)l).ToArray();
             var frequencies = new Dictionary<int, Dictionary<char, int>>();
             foreach (var readout in readouts)
             {
@@ -30,49 +40,23 @@ namespace Day3
                     {
                         frequencies[i]['0']++;
                     }
-                    else if (readout[i] == '1')
-                    {
-                        frequencies[i]['1']++;
-                    }
                     else
                     {
-                        throw new Exception("readout did not resolve to value value");
+                        frequencies[i]['1']++;
                     }
                 }
             }
 
             return frequencies;
         }
+    }
 
-        static int CalculateFrequencyEntirety()
+    [DisplayName("Day 3/Part 1 Solution")]
+    class Day3Part1Solution : Day3SolutionBase
+    {
+        public override void CalculateSolution()
         {
-            var lines = File.ReadAllLines(@"input.txt");
-
-            var oxygenRating = (BinaryString)GetLinesByFrequency((string[])lines.Clone(), 0, (hash, i) => hash[i]['0'] > hash[i]['1'] ? '0' : '1').FirstOrDefault();
-
-            var co2ScrubberRating = (BinaryString)GetLinesByFrequency((string[])lines.Clone(), 0, (hash, i) => hash[i]['0'] > hash[i]['1'] ? '1' : '0').FirstOrDefault();
-
-            return (oxygenRating * co2ScrubberRating);
-        }
-
-        static string[] GetLinesByFrequency(string[] lines, int position, Func<Dictionary<int, Dictionary<char, int>>, int, char> predicate)
-        {
-            if (lines.Length <= 1)
-            {
-                return lines;
-            }
-
-            var frequencies = CalculateFrequencies(lines);
-            var digit = predicate(frequencies, position);
-            lines = lines.AsQueryable().Where(line => line.ToCharArray()[position] == digit).ToArray();
-
-            return GetLinesByFrequency(lines, ++position, predicate);
-        }
-
-        static int CalculateFrequencyDigits()
-        {
-            var lines = File.ReadAllLines(@"input.txt");
-            var frequencies = CalculateFrequencies(lines);
+            var frequencies = CalculateDigitFrequency(Lines);
 
             char[] gamma = new char[frequencies.Count],
                 epsilon = new char[frequencies.Count];
@@ -91,48 +75,38 @@ namespace Day3
                 }
             }
 
-            return (new BinaryString(gamma) * new BinaryString(epsilon));
+            int result = (BinaryString)gamma * (BinaryString)epsilon;
+
+            RenderResult(result);
         }
     }
 
-    public readonly struct BinaryString
+    [DisplayName("Day 3/Part 2 Solution")]
+    class Day3Part2Solution : Day3SolutionBase
     {
-        public string Value { get; }
-
-        public BinaryString(string value)
+        public override void CalculateSolution()
         {
-            Value = value;
+            var oxygenRating = GetLinesByFrequency(Lines, 0, (hash, i) => hash[i]['0'] > hash[i]['1'] ? '0' : '1').FirstOrDefault();
+
+            var co2ScrubberRating = GetLinesByFrequency(Lines, 0, (hash, i) => hash[i]['0'] > hash[i]['1'] ? '1' : '0').FirstOrDefault();
+
+            int result = (BinaryString)oxygenRating * (BinaryString)co2ScrubberRating;
+
+            RenderResult(result);
         }
 
-        public BinaryString(char[] value)
+        private string[] GetLinesByFrequency(string[] lines, int position, Func<Dictionary<int, Dictionary<char, int>>, int, char> predicate)
         {
-            Value = string.Join("", value);
-        }
+            if (lines.Length <= 1)
+            {
+                return lines;
+            }
 
-        public int ToInt32()
-        {
-            return Convert.ToInt32(Value, 2);
-        }
+            var frequencies = CalculateDigitFrequency(lines);
+            var digit = predicate(frequencies, position);
+            lines = lines.AsQueryable().Where(line => line.ToCharArray()[position] == digit).ToArray();
 
-        public static implicit operator int(BinaryString value)
-        {
-            return value.ToInt32();
-        }
-
-        public static explicit operator BinaryString(string value)
-        {
-            return new BinaryString(value);
-        }
-
-        public static explicit operator BinaryString(char[] value)
-        {
-            return new BinaryString(value);
-        }
-
-        public static BinaryString operator *(BinaryString a, BinaryString b)
-        {
-            int product = a.ToInt32() * b.ToInt32();
-            return new BinaryString(Convert.ToString(product, 2));
+            return GetLinesByFrequency(lines, ++position, predicate);
         }
     }
 }
