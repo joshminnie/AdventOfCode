@@ -9,16 +9,8 @@ namespace Day3
     {
         static void Main(string[] args)
         {
-            string[] input = { "jack", "tom", "henry", "sally" };
-            var result = input.AsQueryable().Where(name => name.Length > 4).ToArray();
-
             Console.WriteLine("Frequency digits result = {0}", CalculateFrequencyDigits());
             Console.WriteLine("Frequency entire number = {0}", CalculateFrequencyEntirety());
-        }
-
-        static char[][] ParseInput() {
-            var lines = File.ReadAllLines(@"input.txt");
-            return lines.Select(l => l.ToCharArray()).ToArray();
         }
 
         static Dictionary<int, Dictionary<char, int>> CalculateFrequencies(string[] lines)
@@ -55,46 +47,26 @@ namespace Day3
         static int CalculateFrequencyEntirety()
         {
             var lines = File.ReadAllLines(@"input.txt");
-            var readouts = (string[])lines.Clone();
-            var position = 0;
-            while (readouts.Length > 1)
-            {
-                readouts = GetLinesByFrequency(readouts, position, (hash, i) => hash[i]['0'] > hash[i]['1'] ? '0' : '1');
-                position++;
-            }
 
-            var oxygenRating = readouts.FirstOrDefault();
+            var oxygenRating = (BinaryString)GetLinesByFrequency((string[])lines.Clone(), 0, (hash, i) => hash[i]['0'] > hash[i]['1'] ? '0' : '1').FirstOrDefault();
 
-            readouts = (string[])lines.Clone();
-            position = 0;
-            while (readouts.Length > 1)
-            {
-                readouts = GetLinesByFrequency(readouts, position, (hash, i) => hash[i]['0'] > hash[i]['1'] ? '1' : '0');
-                position++;
-            }
+            var co2ScrubberRating = (BinaryString)GetLinesByFrequency((string[])lines.Clone(), 0, (hash, i) => hash[i]['0'] > hash[i]['1'] ? '1' : '0').FirstOrDefault();
 
-            var co2ScrubberRating = readouts.FirstOrDefault();
-
-            return MultiplyCharArrays(oxygenRating.ToCharArray(), co2ScrubberRating.ToCharArray());
+            return (oxygenRating * co2ScrubberRating);
         }
 
         static string[] GetLinesByFrequency(string[] lines, int position, Func<Dictionary<int, Dictionary<char, int>>, int, char> predicate)
         {
+            if (lines.Length <= 1)
+            {
+                return lines;
+            }
+
             var frequencies = CalculateFrequencies(lines);
             var digit = predicate(frequencies, position);
-            return lines.AsQueryable().Where(line => line.ToCharArray()[position] == digit).ToArray();
-        }
+            lines = lines.AsQueryable().Where(line => line.ToCharArray()[position] == digit).ToArray();
 
-        static int MultiplyCharArrays(char[] left, char[] right)
-        {
-            return Convert.ToInt32(string.Join("", left), 2) * Convert.ToInt32(string.Join("", right), 2);
-        }
-
-
-
-        static char GetCharByFrequency()
-        {
-            return '0';
+            return GetLinesByFrequency(lines, ++position, predicate);
         }
 
         static int CalculateFrequencyDigits()
@@ -119,7 +91,48 @@ namespace Day3
                 }
             }
 
-            return MultiplyCharArrays(gamma, epsilon);
+            return (new BinaryString(gamma) * new BinaryString(epsilon));
+        }
+    }
+
+    public readonly struct BinaryString
+    {
+        public string Value { get; }
+
+        public BinaryString(string value)
+        {
+            Value = value;
+        }
+
+        public BinaryString(char[] value)
+        {
+            Value = string.Join("", value);
+        }
+
+        public int ToInt32()
+        {
+            return Convert.ToInt32(Value, 2);
+        }
+
+        public static implicit operator int(BinaryString value)
+        {
+            return value.ToInt32();
+        }
+
+        public static explicit operator BinaryString(string value)
+        {
+            return new BinaryString(value);
+        }
+
+        public static explicit operator BinaryString(char[] value)
+        {
+            return new BinaryString(value);
+        }
+
+        public static BinaryString operator *(BinaryString a, BinaryString b)
+        {
+            int product = a.ToInt32() * b.ToInt32();
+            return new BinaryString(Convert.ToString(product, 2));
         }
     }
 }
