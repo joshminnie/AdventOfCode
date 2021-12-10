@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using AdventOfCode;
 using Day9.Support;
@@ -18,11 +19,15 @@ namespace Day9
 
     public abstract class Day9SolutionBase : SolutionBase
     {
-        public int[][] Values {
-            get
-            {
-                return Lines.Select(p => p.ToCharArray().Select(v => int.Parse(v.ToString())).ToArray()).ToArray();
-            }
+        public int[][] Values
+        {
+            get;
+            private set;
+        }
+
+        public Day9SolutionBase()
+        {
+            Values = Lines.Select(p => p.ToCharArray().Select(v => int.Parse(v.ToString())).ToArray()).ToArray();
         }
     }
 
@@ -32,7 +37,7 @@ namespace Day9
     {
         public override void CalculateSolution()
         {
-            var lowPoints = new List<Coordinate>();
+            var lowPoints = new List<int>();
 
             for (int x = 0; x < Values.Length; x++)
             {
@@ -46,12 +51,12 @@ namespace Day9
 
                     if (adjacents.All(a => a.Value > origin.Value))
                     {
-                        lowPoints.Add(origin);
+                        lowPoints.Add(origin.Value + 1);
                     }
                 }
             }
 
-            RenderResult("Risk level", lowPoints.Sum(p => p.Value + 1));
+            RenderResult("Risk level", lowPoints.Sum());
         }
     }
 
@@ -60,19 +65,19 @@ namespace Day9
     {
         public override void CalculateSolution()
         {
-            var basins = new List<List<Coordinate>>();
+            //var basins = new List<List<Coordinate>>();
 
-            for (int x = 0; x < Values.Length; x++)
-            {
-                for (int y = 0; y < Values[x].Length; y++)
-                {
-                    if (Values[x][y] == 9)
-                        continue;
+            //for (int x = 0; x < Values.Length; x++)
+            //{
+            //    for (int y = 0; y < Values[x].Length; y++)
+            //    {
+            //        if (Values[x][y] == 9)
+            //            continue;
 
-                    var origin = new Coordinate(x, y, Values[x][y]);
-                    var adjacents = origin.FindAdjacents(Values);
-                }
-            }
+            //        var origin = new Coordinate(x, y, Values[x][y]);
+            //        var adjacents = origin.FindAdjacents(Values);
+            //    }
+            //}
         }
     }
 }

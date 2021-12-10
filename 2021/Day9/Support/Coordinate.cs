@@ -34,13 +34,13 @@ namespace Day9.Support
 
         private Coordinate GetCoordinate(int[][] values, int x, int y)
         {
-            try
-            {
-                return new Coordinate(x, y, values[x][y]);
-            }
-            catch (IndexOutOfRangeException)
+            if (x < 0 || x >= values.Length || y < 0 || y >= values[x].Length)
             {
                 return null;
+            }
+            else
+            {
+                return new Coordinate(x, y, values[x][y]);
             }
         }
     }
