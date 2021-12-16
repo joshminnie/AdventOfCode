@@ -11,9 +11,13 @@
   <ItemGroup>
     <None Remove="input.txt" />
     <None Remove="Support\" />
+    <None Remove="sample.txt" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="input.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sample.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

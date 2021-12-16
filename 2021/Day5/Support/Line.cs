@@ -44,22 +44,44 @@ namespace Day5.Support
             EndingPoint = points.Last();
         }
 
-        public List<Point> GetAllPoints()
+        public List<Point> GetAllPoints(bool includeDiagonals = false)
         {
-            var points = new List<Point> { StartingPoint, EndingPoint };
+            var points = new List<Point>();
 
             if (IsHorizontal)
             {
-                for (int i = StartingPoint.Y + 1; i < EndingPoint.Y; i++)
+                for (int i = StartingPoint.Y; i <= EndingPoint.Y; i++)
                 {
                     points.Add(new Point(StartingPoint.X, i));
                 }
             }
             else if (IsVertical)
             {
-                for (int i = StartingPoint.X + 1; i < EndingPoint.X; i++)
+                for (int i = StartingPoint.X; i <= EndingPoint.X; i++)
                 {
                     points.Add(new Point(i, StartingPoint.Y));
+                }
+            }
+            else if (includeDiagonals)
+            {
+                for (int i = 0; i < EndingPoint.X - StartingPoint.X + 1; i++)
+                {
+                    if (StartingPoint.X < EndingPoint.X && StartingPoint.Y < EndingPoint.Y)
+                    {
+                        points.Add(new Point(StartingPoint.X + i, StartingPoint.Y + i));
+                    }
+                    else if (StartingPoint.X < EndingPoint.X && StartingPoint.Y > EndingPoint.Y)
+                    {
+                        points.Add(new Point(StartingPoint.X + i, StartingPoint.Y - i));
+                    }
+                    else if (StartingPoint.X > EndingPoint.X && StartingPoint.Y < EndingPoint.Y)
+                    {
+                        points.Add(new Point(StartingPoint.X - i, StartingPoint.Y + i));
+                    }
+                    else
+                    {
+                        points.Add(new Point(StartingPoint.X - i, StartingPoint.Y - i));
+                    }
                 }
             }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using AdventOfCode;
@@ -16,7 +17,29 @@ namespace Day5
         }
     }
 
-    public class Day5Part1Solution : SolutionBase
+    public abstract class Day5SolutionBase : SolutionBase
+    {
+        public int FindOverlaps(List<Point> points)
+        {
+            var overlaps = new Dictionary<Point, int>();
+            foreach (Point point in points)
+            {
+                if (overlaps.ContainsKey(point))
+                {
+                    overlaps[point] += 1;
+                }
+                else
+                {
+                    overlaps.Add(point, 1);
+                }
+            }
+
+            return overlaps.Count(v => v.Value > 1);
+        }
+    }
+
+    [DisplayName("Day 5 / Part 1 Solution")]
+    public class Day5Part1Solution : Day5SolutionBase
     {
         public override void CalculateSolution()
         {
@@ -35,22 +58,35 @@ namespace Day5
                 vents.AddRange(line.GetAllPoints());
             }
 
-            var overlaps = from x in vents
-                           group x by x into g
-                           let count = g.Count()
-                           orderby count descending
-                           where count > 1
-                           select new { Value = g.Key, Count = count };
+            var count = FindOverlaps(vents);
 
-            RenderResult("Part 1", null);
+            RenderResult("Part 1", count);
         }
     }
 
-    public class Day5Part2Solution : SolutionBase
+    [DisplayName("Day 5 / Part 2 Solution")]
+    public class Day5Part2Solution : Day5SolutionBase
     {
         public override void CalculateSolution()
         {
-            RenderResult("Part 1", null);
+            var lines = Lines;
+            var vents = new List<Point>();
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                var points = lines[i].Trim().Split(" -> ").Select((string s) =>
+                {
+                    var points = Array.ConvertAll(s.Split(","), int.Parse);
+                    return new Point(points[0], points[1]);
+                }).ToList();
+
+                var line = new Line(points[0], points[1]);
+                vents.AddRange(line.GetAllPoints(true));
+            }
+
+            var count = FindOverlaps(vents);
+
+            RenderResult("Part 1", count);
         }
     }
 }
