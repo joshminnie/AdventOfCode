@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.IO;
 using AdventOfCode;
 
 namespace AoC2021
