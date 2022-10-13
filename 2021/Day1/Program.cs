@@ -9,15 +9,15 @@ namespace AoC2021
     {
         static void Main(string[] args)
         {
-            new Day1Part1Solution().CalculateSolution();
-            new Day1Part2Solution().CalculateSolution();
+            new Day1Part1Solution().CalculateSolutionAsync();
+            new Day1Part2Solution().CalculateSolutionAsync();
         }
     }
 
     [DisplayName("Day 1/Part 1 Solution")]
     class Day1Part1Solution : SolutionBase
     {
-        public override void CalculateSolution()
+        public override void CalculateSolutionAsync()
         {
             int[] numbers = Array.ConvertAll(Lines, int.Parse);
             int increases = 0;
@@ -39,7 +39,7 @@ namespace AoC2021
     [DisplayName("Day 1/Part 2 Solution")]
     class Day1Part2Solution : SolutionBase
     {
-        public override void CalculateSolution()
+        public override void CalculateSolutionAsync()
         {
             int[] numbers = Array.ConvertAll(Lines, int.Parse);
             int increases = 0;

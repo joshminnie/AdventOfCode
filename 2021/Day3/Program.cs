@@ -11,8 +11,8 @@ namespace Day3
     {
         static void Main(string[] args)
         {
-            new Day3Part1Solution().CalculateSolution();
-            new Day3Part2Solution().CalculateSolution();
+            new Day3Part1Solution().CalculateSolutionAsync();
+            new Day3Part2Solution().CalculateSolutionAsync();
         }
     }
 
@@ -54,7 +54,7 @@ namespace Day3
     [DisplayName("Day 3/Part 1 Solution")]
     class Day3Part1Solution : Day3SolutionBase
     {
-        public override void CalculateSolution()
+        public override void CalculateSolutionAsync()
         {
             var frequencies = CalculateDigitFrequency(Lines);
 
@@ -84,7 +84,7 @@ namespace Day3
     [DisplayName("Day 3/Part 2 Solution")]
     class Day3Part2Solution : Day3SolutionBase
     {
-        public override void CalculateSolution()
+        public override void CalculateSolutionAsync()
         {
             var oxygenRating = GetLinesByFrequency(Lines, 0, (hash, i) => hash[i]['0'] > hash[i]['1'] ? '0' : '1').FirstOrDefault();
 

@@ -12,8 +12,8 @@ namespace Day9
     {
         static void Main(string[] args)
         {
-            new Day9Part1Solution().CalculateSolution();
-            new Day9Part2Solution().CalculateSolution();
+            new Day9Part1Solution().CalculateSolutionAsync();
+            new Day9Part2Solution().CalculateSolutionAsync();
         }
     }
 
@@ -35,7 +35,7 @@ namespace Day9
     [DisplayName("Day 9 / Part 1 Solution")]
     public class Day9Part1Solution : Day9SolutionBase
     {
-        public override void CalculateSolution()
+        public override void CalculateSolutionAsync()
         {
             var lowPoints = new List<int>();
 
@@ -63,7 +63,7 @@ namespace Day9
     [DisplayName("Day 9 / Part 2 Solution")]
     public class Day9Part2Solution : Day9SolutionBase
     {
-        public override void CalculateSolution()
+        public override void CalculateSolutionAsync()
         {
             //var basins = new List<List<Coordinate>>();
 

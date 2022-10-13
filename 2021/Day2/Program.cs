@@ -10,15 +10,15 @@ namespace Day2
     {
         static void Main(string[] args)
         {
-            new Day2Part1Solution().CalculateSolution();
-            new Day2Part2Solution().CalculateSolution();
+            new Day2Part1Solution().CalculateSolutionAsync();
+            new Day2Part2Solution().CalculateSolutionAsync();
         }
     }
 
     [DisplayName("Day 2/Part 1 Solution")]
     class Day2Part1Solution : SolutionBase
     {
-        public override void CalculateSolution()
+        public override void CalculateSolutionAsync()
         {
             var directions = Lines.Select(p => p.Split(" ")).ToArray();
             int depth = 0, distance = 0;
@@ -45,7 +45,7 @@ namespace Day2
     [DisplayName("Day 2/Part 2 Solution")]
     class Day2Part2Solution : SolutionBase
     {
-        public override void CalculateSolution()
+        public override void CalculateSolutionAsync()
         {
             var directions = Lines.Select(p => p.Split(" ")).ToArray();
             int depth = 0, angle = 0, distance = 0, movement;

@@ -12,8 +12,8 @@ namespace Day5
     {
         static void Main(string[] args)
         {
-            new Day5Part1Solution().CalculateSolution();
-            new Day5Part2Solution().CalculateSolution();
+            new Day5Part1Solution().CalculateSolutionAsync();
+            new Day5Part2Solution().CalculateSolutionAsync();
         }
     }
 
@@ -41,7 +41,7 @@ namespace Day5
     [DisplayName("Day 5 / Part 1 Solution")]
     public class Day5Part1Solution : Day5SolutionBase
     {
-        public override void CalculateSolution()
+        public override void CalculateSolutionAsync()
         {
             var lines = Lines;
             var vents = new List<Point>();
@@ -67,7 +67,7 @@ namespace Day5
     [DisplayName("Day 5 / Part 2 Solution")]
     public class Day5Part2Solution : Day5SolutionBase
     {
-        public override void CalculateSolution()
+        public override void CalculateSolutionAsync()
         {
             var lines = Lines;
             var vents = new List<Point>();

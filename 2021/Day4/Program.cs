@@ -11,8 +11,8 @@ namespace Day4
     {
         static void Main(string[] args)
         {
-            new Day4Part1Solution().CalculateSolution();
-            new Day4Part2Solution().CalculateSolution();
+            new Day4Part1Solution().CalculateSolutionAsync();
+            new Day4Part2Solution().CalculateSolutionAsync();
         }
     }
 
@@ -56,7 +56,7 @@ namespace Day4
     [DisplayName("Day 4/Part 1 Solution")]
     public class Day4Part1Solution : Day4SolutionBase
     {
-        public override void CalculateSolution()
+        public override void CalculateSolutionAsync()
         {
             foreach (var value in Values)
             {
@@ -76,7 +76,7 @@ namespace Day4
     [DisplayName("Day 4/Part 2 Solution")]
     public class Day4Part2Solution : Day4SolutionBase
     {
-        public override void CalculateSolution()
+        public override void CalculateSolutionAsync()
         {
             var scores = new List<int>();
 

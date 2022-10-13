@@ -8,14 +8,23 @@
   <ItemGroup>
     <None Remove="input.txt" />
     <None Remove="README.md" />
+    <None Remove="sample.txt" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="input.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="README.md" />
+    <Content Include="sample.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AdventOfCode\AdventOfCode.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="sample.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
